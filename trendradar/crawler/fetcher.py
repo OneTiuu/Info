@@ -8,7 +8,7 @@
 - 自动重试机制
 - 代理支持
 """
-
+from .local_adapters import LocalAdapters, ADAPTER_MAP
 import json
 import random
 import time
@@ -71,7 +71,17 @@ class DataFetcher:
         else:
             id_value = id_info
             alias = id_value
-
+        if id_value in ADAPTER_MAP:
+            method_name = ADAPTER_MAP[id_value]
+            adapter_func = getattr(self.local_adapters, method_name)
+            
+            print(f">>> 正在执行本地适配器路径: {id_value}")
+            data_text = adapter_func()
+            
+            if data_text:
+                return data_text, id_value, alias
+            else:
+                print(f"本地适配器 {id_value} 获取数据失败，尝试切换回 API (若有)...")
         url = f"{self.api_url}?id={id_value}&latest"
 
         proxies = None
