@@ -39,14 +39,14 @@ class DataFetcher:
     ):
         """
         初始化数据获取器
-
+        
         Args:
             proxy_url: 代理服务器 URL（可选）
             api_url: API 基础 URL（可选，默认使用 DEFAULT_API_URL）
         """
         self.proxy_url = proxy_url
         self.api_url = api_url or self.DEFAULT_API_URL
-
+        self.local_adapters = LocalAdapters()
     def fetch_data(
         self,
         id_info: Union[str, Tuple[str, str]],
