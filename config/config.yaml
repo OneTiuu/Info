@@ -162,5 +162,5 @@ weight:
 
 # name 可以定义任意名称，只具有显示作用，即使项目运行了几天后，忽然改掉 name 也不会影响代码的正常运行
 platforms:
-    - id: "szvc"    # 触发 local_adapters.py 中的 get_szvc
+    - id: "szvc"             
     name: "深创投公告"
