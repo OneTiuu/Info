@@ -48,6 +48,5 @@ class LocalAdapters:
 
 # 映射表：ID 对应 处理函数
 ADAPTER_MAP = {
-    "szvc": "get_szvc",
-    "szse": "get_szse", # 以后在这里加一行即可
+    "szvc": "get_szvc", # 以后在这里加一行即可
 }
