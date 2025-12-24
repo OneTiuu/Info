@@ -206,3 +206,5 @@ platforms:
     
     id: "fastbull-news"
     name: "法布财经 头条"
+    - id: "szvc"    # 触发 local_adapters.py 中的 get_szvc
+    name: "深创投公告"
