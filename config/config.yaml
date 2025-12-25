@@ -164,3 +164,5 @@ weight:
 platforms:
   - id: "szvc"
     name: "深投控"
+  - id: "yuecaifund"
+    name: "粤财基金"
