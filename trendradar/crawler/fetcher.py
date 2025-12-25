@@ -157,24 +157,32 @@ class DataFetcher:
                 try:
                     data = json.loads(response)
                     results[id_value] = {}
-
+                    
+                    # --- 修改后的逻辑 ---
                     for index, item in enumerate(data.get("items", []), 1):
                         title = item.get("title")
-                        # 跳过无效标题（None、float、空字符串）
+                        # 跳过无效标题（保持原样）
                         if title is None or isinstance(title, float) or not str(title).strip():
                             continue
+                        
                         title = str(title).strip()
                         url = item.get("url", "")
                         mobile_url = item.get("mobileUrl", "")
-
-                        if title in results[id_value]:
-                            results[id_value][title]["ranks"].append(index)
-                        else:
-                            results[id_value][title] = {
-                                "ranks": [index],
-                                "url": url,
-                                "mobileUrl": mobile_url,
-                            }
+                        # ✨ 新增：获取你在 adapters.py 中定义的日期/发布时间
+                        # 尝试读取 date 或 release_time 字段
+                        date_val = item.get("date") or item.get("release_time") or ""
+                    
+                        # 🚫 关闭合并逻辑：不再使用 title 作为 Key，而是使用带序号的 Key
+                        # 这样即使标题一模一样，也会因为序号不同（001_, 002_...）而作为独立项保存
+                        unique_key = f"{index:03d}_{title}" 
+                    
+                        results[id_value][unique_key] = {
+                            "title": title,          # 原始标题
+                            "ranks": [index],        # 原始排名
+                            "url": url,
+                            "mobileUrl": mobile_url,
+                            "date": date_val         # ✨ 确保日期被存入，以便后续通知显示
+                        }
                 except json.JSONDecodeError:
                     print(f"解析 {id_value} 响应失败")
                     failed_ids.append(id_value)
